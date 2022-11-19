@@ -1,5 +1,6 @@
 package com.group.carrentalserver.domain.entity;
 
+import com.group.carrentalserver.domain.entity.base.BaseEntity;
 import com.group.carrentalserver.domain.enumeration.RoleType;
 import lombok.Data;
 

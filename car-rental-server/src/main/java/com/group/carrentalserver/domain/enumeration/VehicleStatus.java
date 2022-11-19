@@ -5,9 +5,10 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum SteeringWheelSide {
-    LEFT("Left"),
-    RIGHT("Right");
+public enum VehicleStatus {
+    AVAILABLE("Available"),
+    RESERVED("Reserved"),
+    LOANED("Loaned");
 
-    private final String side;
+    private final String status;
 }
