@@ -1,5 +1,6 @@
-package com.group.carrentalserver.controller;
+package com.group.carrentalserver.resource;
 
+import com.group.carrentalserver.dto.LoginEntryDto;
 import com.group.carrentalserver.dto.RegistrationDto;
 import com.group.carrentalserver.dto.UserDto;
 import com.group.carrentalserver.service.UserService;
@@ -16,16 +17,21 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping("/api/v1")
-public class UserController {
+public class UserResource {
 
     private final UserService userService;
 
-    public UserController(UserService userService) {
+    public UserResource(UserService userService) {
         this.userService = userService;
     }
 
     @PostMapping("/register")
     public ResponseEntity<UserDto> register(@RequestBody @Valid RegistrationDto dto) {
+        return null;
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<UserDto> login(@RequestBody @Valid LoginEntryDto dto) {
         return null;
     }
 }

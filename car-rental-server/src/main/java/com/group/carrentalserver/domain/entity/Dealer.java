@@ -1,6 +1,8 @@
 package com.group.carrentalserver.domain.entity;
 
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,6 +12,8 @@ import java.util.Set;
 
 @Data
 @Entity
+@Builder
+@NoArgsConstructor
 public class Dealer extends User {
 
     @OneToMany(mappedBy = "dealer", cascade = CascadeType.ALL, orphanRemoval = true)

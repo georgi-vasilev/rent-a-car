@@ -5,7 +5,9 @@ import com.group.carrentalserver.domain.enumeration.Body;
 import com.group.carrentalserver.domain.enumeration.Fuel;
 import com.group.carrentalserver.domain.enumeration.Transmission;
 import com.group.carrentalserver.domain.enumeration.VehicleStatus;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,6 +16,8 @@ import java.util.List;
 @Data
 @Table
 @Entity
+@Builder
+@NoArgsConstructor
 public class Car extends BaseEntity {
 
     @Column
