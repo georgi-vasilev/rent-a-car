@@ -5,10 +5,8 @@ import com.group.carrentalserver.dto.RegistrationDto;
 import com.group.carrentalserver.dto.UserDto;
 import com.group.carrentalserver.service.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 
 import javax.validation.Valid;
 
@@ -27,6 +25,7 @@ public class UserResource {
 
     @PostMapping("/register")
     public ResponseEntity<UserDto> register(@RequestBody @Valid RegistrationDto dto) {
+        System.out.println("hmm");
         return null;
     }
 
