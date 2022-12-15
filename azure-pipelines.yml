@@ -22,5 +22,5 @@ steps:
 - script: 'npm install @angular/cli'
   displayName: 'Install Angular CLI'
 
-- script: 'node_modules/@angular/cli/bin/ng build --aot'
+- script: 'ng build --prod'
   displayName: Build
