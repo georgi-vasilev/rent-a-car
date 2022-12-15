@@ -47,18 +47,6 @@ public class CarController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CarDto>> getAll() {
-        log.debug("REST request to fetch all Car entities!");
-
-        List<CarDto> result = carService.findAll()
-                .stream()
-                .map(carMapper::entityToDto)
-                .toList();
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    @GetMapping
     public ResponseEntity<List<CarDto>> getAll(Pageable pageable) {
         log.debug("REST request to fetch all Car entities by a pageable criteria!");
 
