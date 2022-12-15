@@ -12,7 +12,8 @@ pool:
 steps:
 - task: Gradle@2
   inputs:
-    workingDirectory: rent-a-car/car-rental-server/gradlew
+    workingDirectory: rent-a-car/car-rental-server/
+    gradleWrapperFile: 'gradlew'
     gradleOptions: '-Xmx3072m'
     javaHomeOption: 'JDKVersion'
     jdkVersionOption: 'default'
