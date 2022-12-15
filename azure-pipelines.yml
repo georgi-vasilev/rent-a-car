@@ -23,5 +23,4 @@ steps:
   displayName: 'Install Angular CLI'
 
 - script: 'node_modules/@angular/cli/bin/ng build --aot'
-  workingDirectory: Sources
   displayName: Build
