@@ -18,27 +18,43 @@ repositories {
 	mavenCentral()
 }
 
+ext {
+	mapstructVersion = "1.5.3.Final"
+	lombokVersion = '1.18.24'
+	lombokMapstructBindingVersion = "0.2.0"
+	log4jVersion = "2.19.0"
+	javaJwtVersion = "4.2.1"
+	springDocOpenAPI = "1.6.13"
+}
+
+compileJava {
+	options.compilerArgs += [
+			'-Amapstruct.defaultComponentModel=spring',
+			'-Amapstruct.unmappedTargetPolicy=IGNORE'
+	]
+}
+
 dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
 	implementation 'org.liquibase:liquibase-core'
-	implementation 'org.apache.logging.log4j:log4j-api:2.19.0'
-	implementation 'org.apache.logging.log4j:log4j-core:2.19.0'
-	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
-	implementation 'com.auth0:java-jwt:4.2.1'
-	compileOnly 'org.projectlombok:lombok'
+	implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+	implementation "org.projectlombok:lombok:${lombokVersion}"
+	implementation "org.apache.logging.log4j:log4j-api:${log4jVersion}"
+	implementation "org.apache.logging.log4j:log4j-core:${log4jVersion}"
+	implementation "com.auth0:java-jwt:${javaJwtVersion}"
+	implementation "org.springdoc:springdoc-openapi-ui:${springDocOpenAPI}"
+	annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+	annotationProcessor	"org.projectlombok:lombok:${lombokVersion}"
+	annotationProcessor "org.projectlombok:lombok-mapstruct-binding:${lombokMapstructBindingVersion}"
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'org.postgresql:postgresql'
-	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
-	annotationProcessor 'org.projectlombok:lombok'
+	runtimeOnly 'com.h2database:h2'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
-}
-
-tasks.named('test') {
-	useJUnitPlatform()
 }

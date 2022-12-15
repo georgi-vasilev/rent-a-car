@@ -5,13 +5,13 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class TenantDto extends UserDto {
-    private List<ReservationDto> reservations = new ArrayList<>();
+public class ReservationDto extends BaseDto {
+    private LocalDateTime creationDate;
+    private LocalDateTime dueDate;
 }

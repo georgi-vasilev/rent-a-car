@@ -45,7 +45,7 @@ public class SecurityConfig {
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/sign-up", "/login").permitAll()
+                .antMatchers("/sign-up/**", "/login/**").permitAll()
                 .anyRequest().authenticated();
 
         return http.build();
@@ -54,7 +54,9 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
-                .antMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/favicon.ico");
+                .antMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/favicon.ico")
+                .antMatchers("/swagger-ui/**", "/v3/api-docs/**")
+                .regexMatchers("/\\d+.*/.*\\..*");
     }
 
     @Bean

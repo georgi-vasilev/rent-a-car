@@ -2,9 +2,10 @@ package com.group.carrentalserver.domain.entity;
 
 import com.group.carrentalserver.domain.entity.base.BaseEntity;
 import com.group.carrentalserver.domain.enumeration.UserStatus;
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,9 +16,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
+@Table
 @Entity
-@Builder
 @NoArgsConstructor
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User extends BaseEntity implements UserDetails {
 
