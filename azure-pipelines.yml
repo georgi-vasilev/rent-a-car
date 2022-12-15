@@ -16,8 +16,16 @@ steps:
     versionSpec: '14.x'
   displayName: 'Install Node.js'
 
-- script: |
-    npm install -g @angular/cli
-    npm install
-    ng build --prod
-  displayName: 'npm install and build'
+- task: Npm@1
+  displayName: 'npm install'
+  inputs:
+    workingDir: Sources
+    verbose: true
+
+- script: 'npm install @angular/cli'
+  workingDirectory: Sources
+  displayName: 'Install Angular CLI'
+
+- script: 'node_modules/@angular/cli/bin/ng build --aot'
+  workingDirectory: Sources
+  displayName: Build
