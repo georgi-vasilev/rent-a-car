@@ -12,12 +12,10 @@ pool:
 steps:
 - task: Gradle@2
   inputs:
-    workingDirectory: car-rental-server/
+    workingDirectory: car-rental-server/gradlew
     gradleWrapperFile: 'gradlew'
     gradleOptions: '-Xmx3072m'
     javaHomeOption: 'JDKVersion'
     jdkVersionOption: 'default'
     jdkArchitectureOption: 'x64'
-    publishJUnitResults: true
-    testResultsFiles: '**/TEST-*.xml'
     tasks: 'build'
