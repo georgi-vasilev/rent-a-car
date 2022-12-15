@@ -2,9 +2,10 @@ package com.group.carrentalserver.domain.entity;
 
 import com.group.carrentalserver.domain.entity.base.BaseEntity;
 import com.group.carrentalserver.domain.enumeration.RoleType;
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -13,8 +14,9 @@ import java.util.Set;
 @Data
 @Table
 @Entity
-@Builder
 @NoArgsConstructor
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 public class Role extends BaseEntity {
 
     @Column
@@ -26,4 +28,8 @@ public class Role extends BaseEntity {
 
     @ManyToMany(mappedBy = "roles")
     private Set<User> users = new HashSet<>();
+
+    public Role(RoleType roleType) {
+        this.roleType = roleType;
+    }
 }

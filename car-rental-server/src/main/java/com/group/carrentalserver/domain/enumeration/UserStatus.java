@@ -10,7 +10,7 @@ public enum UserStatus {
     ACTIVE("Active"),
     CANCELLED("Cancelled"),
     BLACKLISTED("Blacklisted"),
-    NONE("None");
+    CREATED("Created");
 
     private final String status;
 }

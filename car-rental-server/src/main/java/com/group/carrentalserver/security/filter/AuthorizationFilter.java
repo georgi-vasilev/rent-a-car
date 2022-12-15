@@ -23,22 +23,23 @@ import static com.group.carrentalserver.security.SecurityConstants.*;
 @Component
 public class AuthorizationFilter extends OncePerRequestFilter {
 
+
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        String header = request.getHeader(AUTHORIZATION_HEADER);
+        String authHeader = request.getHeader(AUTHORIZATION_HEADER);
 
-        if (header == null || !header.startsWith(TOKEN_PREFIX)) {
+        if (authHeader == null || !authHeader.startsWith(TOKEN_PREFIX)) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        String token = header.replace(TOKEN_PREFIX, "");
-        Algorithm algorithm = Algorithm.HMAC256(SECRET.getBytes());
+        String token = authHeader.replace(TOKEN_PREFIX, "");
 
-        JWTVerifier verifier = JWT.require(algorithm).build();
-        DecodedJWT decodedJWT = verifier.verify(token);
+        Algorithm algorithm = Algorithm.HMAC256(SECRET.getBytes());
+        JWTVerifier jwtVerifier = JWT.require(algorithm).build();
+        DecodedJWT decodedJWT = jwtVerifier.verify(token);
 
         String username = decodedJWT.getSubject();
 

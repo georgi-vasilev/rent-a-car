@@ -12,6 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class TenantDto extends UserDto {
-    private List<ReservationDto> reservations = new ArrayList<>();
+public class DealerDto extends UserDto {
+    private List<CarDto> cars = new ArrayList<>();
 }

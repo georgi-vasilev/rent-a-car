@@ -189,21 +189,6 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: fuel
-                  type: VARCHAR(30)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: transmission
-                  type: VARCHAR(30)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: seats
-                  type: INTEGER
-                  constraints:
-                    nullable: false
-              - column:
                   name: manufacture_year
                   type: INTEGER
                   constraints:
@@ -245,6 +230,34 @@ databaseChangeLog:
                   defaultValueBoolean: false
                   constraints:
                     nullable: false
+              - column:
+                  name: has_navigation
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: fuel
+                  type: VARCHAR(30)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: transmission
+                  type: VARCHAR(30)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: seats
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+              - column:
+                  name: car_id
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_locations_car
+                    references: car(id)
         - rollback:
             dropTable: equipment
   - changeSet:
