@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class LoginService {
-  private loginPath: string = environment.apiUrl + "api/v1/users/sign-in";
+  private loginPath: string = environment.apiUrl + "login";
   
   constructor(private http: HttpClient) { }
 
