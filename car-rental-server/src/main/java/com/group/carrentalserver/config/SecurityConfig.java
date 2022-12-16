@@ -5,7 +5,6 @@ import com.group.carrentalserver.security.filter.AuthenticationFilter;
 import com.group.carrentalserver.security.filter.AuthorizationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -22,16 +21,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class SecurityConfig {
 
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    private final AuthenticationFilter authenticationFilter;
-    private final AuthorizationFilter authorizationFilter;
+    private final AuthenticationConfiguration authenticationConfiguration;
 
     public SecurityConfig(JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
-                          AuthenticationFilter authenticationFilter,
-                          AuthorizationFilter authorizationFilter) {
+                          AuthenticationConfiguration authenticationConfiguration) {
         this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
-        this.authenticationFilter = authenticationFilter;
-        this.authorizationFilter = authorizationFilter;
+        this.authenticationConfiguration = authenticationConfiguration;
     }
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -40,8 +37,8 @@ public class SecurityConfig {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilter(authenticationFilter)
-                .addFilterAfter(authorizationFilter, authenticationFilter.getClass())
+                .addFilter(new AuthenticationFilter(authenticationConfiguration.getAuthenticationManager()))
+                .addFilterAfter(new AuthorizationFilter(), AuthenticationFilter.class)
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and()
                 .authorizeRequests()
@@ -57,11 +54,6 @@ public class SecurityConfig {
                 .antMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/favicon.ico")
                 .antMatchers("/swagger-ui/**", "/v3/api-docs/**")
                 .regexMatchers("/\\d+.*/.*\\..*");
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean

@@ -7,12 +7,12 @@ import com.group.carrentalserver.domain.entity.User;
 import com.group.carrentalserver.dto.LoginEntryDto;
 import com.group.carrentalserver.security.SecurityConstants;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
@@ -22,8 +22,13 @@ import java.util.Date;
 import java.util.stream.Collectors;
 
 @Slf4j
-@Component
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+
+    private final AuthenticationManager authenticationManager;
+
+    public AuthenticationFilter(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+    }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
@@ -35,7 +40,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
             var authenticationToken = new UsernamePasswordAuthenticationToken(loginEntry.getUsername(),
                     loginEntry.getPassword());
 
-            return getAuthenticationManager().authenticate(authenticationToken);
+            return authenticationManager.authenticate(authenticationToken);
 
         } catch (IOException e) {
             log.error("Exception thrown when reading user data from request!");
