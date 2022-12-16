@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     localStorage.removeItem('token');
     this.loginForm = this.fb.group<LoginFormModel>({
-      email: ['', Validators.required],
+      username: ['', Validators.required],
       password: ['', Validators.required],
     })
   }

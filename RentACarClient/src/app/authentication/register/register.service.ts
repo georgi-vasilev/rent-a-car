@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class RegisterService {
-  registerPath: string = environment.apiUrl + "sign-in";
+  registerPath: string = environment.apiUrl + "api/v1/users/sign-up";
   constructor(private http: HttpClient) { }
 
   register(payload): Observable<any> {
