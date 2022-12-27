@@ -9,7 +9,7 @@ import lombok.Getter;
 public enum UserStatus {
     ACTIVE("Active"),
     CANCELLED("Cancelled"),
-    BLACKLISTED("Blacklisted"),
+    LOCKED("Locked"),
     CREATED("Created");
 
     private final String status;

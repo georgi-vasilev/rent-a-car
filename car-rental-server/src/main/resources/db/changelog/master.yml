@@ -1,3 +1,5 @@
 databaseChangeLog:
   - include:
+      file: db/changelog/sequence.yml
+  - include:
       file: db/changelog/db.changelog-2022_11_19.yml

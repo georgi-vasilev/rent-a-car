@@ -1,24 +1,21 @@
 package com.group.carrentalserver.domain.entity;
 
 import com.group.carrentalserver.domain.entity.base.BaseEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
-@Data
-@Table
+@Getter
+@Setter
 @Entity
-@NoArgsConstructor
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
+@Table(name = "insurances")
 public class Insurance extends BaseEntity {
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Car car;
 
     @Column
     private String company;
@@ -28,4 +25,25 @@ public class Insurance extends BaseEntity {
 
     @Column
     private LocalDateTime validTo;
+
+    @ManyToOne
+    private Car car;
+
+    public Insurance() {
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getCompany(), getValidFrom(), getValidTo());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Insurance)) {
+            return false;
+        }
+        return this.getId().equals(((Insurance) o).getId());
+    }
 }

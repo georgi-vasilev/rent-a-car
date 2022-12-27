@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Zdravko Mladenov
+      dbms: postgresql
+      changes:
+        - createSequence:
+            sequenceName: base_entity_sequence
+        - rollback:
+            dropSequence:
+              sequenceName: base_entity_sequence

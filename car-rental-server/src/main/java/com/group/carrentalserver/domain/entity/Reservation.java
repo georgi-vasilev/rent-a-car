@@ -1,23 +1,20 @@
 package com.group.carrentalserver.domain.entity;
 
 import com.group.carrentalserver.domain.entity.base.BaseEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
-@Data
-@Table
+@Getter
+@Setter
 @Entity
-@NoArgsConstructor
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
+@Table(name = "reservations")
 public class Reservation extends BaseEntity {
 
     @Column
@@ -30,5 +27,23 @@ public class Reservation extends BaseEntity {
     private Car car;
 
     @ManyToOne
-    private Tenant tenant;
+    private User user;
+
+    public Reservation() {
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getCreationDate(), getDueDate());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Reservation)) {
+            return false;
+        }
+        return this.getId().equals(((Reservation) o).getId());
+    }
 }
