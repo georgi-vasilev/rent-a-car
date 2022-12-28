@@ -1,15 +1,14 @@
 package com.group.carrentalserver.service.impl;
 
 import com.group.carrentalserver.domain.entity.User;
+import com.group.carrentalserver.domain.entity.VerificationToken;
+import com.group.carrentalserver.exception.InvalidVerificationTokenForUserException;
 import com.group.carrentalserver.repository.UserRepository;
-import com.group.carrentalserver.service.UserService;
+import com.group.carrentalserver.service.IUserService;
+import com.group.carrentalserver.service.IVerificationTokenService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,22 +18,15 @@ import java.util.Optional;
  */
 @Slf4j
 @Service
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserService implements IUserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final IVerificationTokenService tokenService;
 
-    public UserServiceImpl(UserRepository userRepository,
-                           PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository,
+                       IVerificationTokenService tokenService) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository
-                .findByUsername(username)
-                .orElseThrow();
+        this.tokenService = tokenService;
     }
 
     @Override
@@ -45,6 +37,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public User getUserByToken(String token) throws InvalidVerificationTokenForUserException {
+        return tokenService.getVerificationToken(token).map(VerificationToken::getUser)
+                .orElseThrow(() -> new InvalidVerificationTokenForUserException(token));
     }
 
     @Override
