@@ -2,34 +2,46 @@ package com.group.carrentalserver.domain.entity;
 
 import com.group.carrentalserver.domain.entity.base.BaseEntity;
 import com.group.carrentalserver.domain.enumeration.RoleType;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
-@Data
-@Table
+@Getter
+@Setter
 @Entity
-@NoArgsConstructor
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
+@Table(name = "roles")
 public class Role extends BaseEntity {
 
     @Column
     @Enumerated(value = EnumType.STRING)
     private RoleType roleType;
 
-    @Column
-    private String description;
-
     @ManyToMany(mappedBy = "roles")
     private Set<User> users = new HashSet<>();
 
+    public Role() {
+    }
+
     public Role(RoleType roleType) {
         this.roleType = roleType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getRoleType());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Role)) {
+            return false;
+        }
+        return this.getId().equals(((Role) o).getId());
     }
 }

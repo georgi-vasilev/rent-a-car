@@ -16,7 +16,8 @@ import java.util.Set;
         property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = DealerDto.class, name = "dealer"),
-        @JsonSubTypes.Type(value = TenantDto.class, name = "tenant")
+        @JsonSubTypes.Type(value = TenantDto.class, name = "tenant"),
+        @JsonSubTypes.Type(value = CombinedUserDto.class, name = "combined"),
 })
 public class UserDto {
     private String username;

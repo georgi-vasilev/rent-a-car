@@ -3,21 +3,18 @@ package com.group.carrentalserver.domain.entity;
 import com.group.carrentalserver.domain.entity.base.BaseEntity;
 import com.group.carrentalserver.domain.enumeration.Body;
 import com.group.carrentalserver.domain.enumeration.CarStatus;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-@Data
-@Table
+@Getter
+@Setter
 @Entity
-@NoArgsConstructor
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
+@Table(name = "cars")
 public class Car extends BaseEntity {
 
     @Column
@@ -53,5 +50,23 @@ public class Car extends BaseEntity {
     private List<Location> locations = new ArrayList<>();
 
     @ManyToOne
-    private Dealer dealer;
+    private User user;
+
+    public Car() {
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getBody(), getBrand(), getModel(), getLicenceNumber(), getManufactureYear());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Car)) {
+            return false;
+        }
+        return this.getId().equals(((Car) o).getId());
+    }
 }

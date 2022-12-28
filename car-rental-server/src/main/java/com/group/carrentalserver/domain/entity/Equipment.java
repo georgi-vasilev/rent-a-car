@@ -3,19 +3,16 @@ package com.group.carrentalserver.domain.entity;
 import com.group.carrentalserver.domain.entity.base.BaseEntity;
 import com.group.carrentalserver.domain.enumeration.Fuel;
 import com.group.carrentalserver.domain.enumeration.Transmission;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Objects;
 
-@Data
-@Table
+@Getter
+@Setter
 @Entity
-@NoArgsConstructor
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
+@Table(name = "equipments")
 public class Equipment extends BaseEntity {
 
     @Column
@@ -38,4 +35,22 @@ public class Equipment extends BaseEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "car_id")
     private Car car;
+
+    public Equipment() {
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getHasNavigation(), getHasNavigation(), getFuel(), getTransmission(), getSeats());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Equipment)) {
+            return false;
+        }
+        return this.getId().equals(((Equipment) o).getId());
+    }
 }

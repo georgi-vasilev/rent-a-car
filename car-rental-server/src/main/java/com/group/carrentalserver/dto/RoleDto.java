@@ -7,5 +7,4 @@ import lombok.Data;
 public class RoleDto {
     private Integer id;
     private RoleType roleType;
-    private String description;
 }

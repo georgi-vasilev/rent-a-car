@@ -4,7 +4,7 @@ databaseChangeLog:
       author: Zdravko Mladenov
       changes:
         - createTable:
-            tableName: user
+            tableName: users
             columns:
               - column:
                   name: id
@@ -18,29 +18,35 @@ databaseChangeLog:
                     nullable: false
                     unique: true
               - column:
-                  name: password
-                  type: VARCHAR(255)
-                  constraints:
-                    nullable: false
-              - column:
                   name: email
                   type: VARCHAR(50)
                   constraints:
                     nullable: false
                     unique: true
               - column:
+                  name: password
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
                   name: status
                   type: VARCHAR(25)
                   constraints:
                     nullable: false
+              - column:
+                  name: has_valid_license
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
         - rollback:
-            dropTable: user
+            dropTable: users
   - changeSet:
       id: 2
       author: Zdravko Mladenov
       changes:
         - createTable:
-            tableName: role
+            tableName: roles
             columns:
               - column:
                   name: id
@@ -51,14 +57,10 @@ databaseChangeLog:
                   name: role_type
                   type: VARCHAR(20)
                   constraints:
+                    unique: true
                     nullable: false
-              - column:
-                  name: description
-                  type: VARCHAR(20)
-                  constraints:
-                    nullable: true
         - rollback:
-            dropTable: role
+            dropTable: roles
   - changeSet:
       id: 3
       author: Zdravko Mladenov
@@ -71,7 +73,7 @@ databaseChangeLog:
                   type: INTEGER
                   constraints:
                     nullable: false
-                    references: user(id)
+                    references: users(id)
                     foreignKeyName: fk_users_roles
                     primaryKey: true
               - column:
@@ -79,94 +81,17 @@ databaseChangeLog:
                   type: INTEGER
                   constraints:
                     nullable: false
-                    references: role(id)
+                    references: roles(id)
                     foreignKeyName: fk_roles_users
                     primaryKey: true
         - rollback:
             dropTable: users_roles
   - changeSet:
-      id: 5
-      author: Zdravko Mladenov
-      changes:
-        - createTable:
-            tableName: dealer
-            columns:
-              - column:
-                  name: id
-                  type: INTEGER
-                  constraints:
-                    primaryKey: true
-              - column:
-                  name: username
-                  type: VARCHAR(30)
-                  constraints:
-                    nullable: false
-                    unique: true
-              - column:
-                  name: password
-                  type: VARCHAR(255)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: email
-                  type: VARCHAR(50)
-                  constraints:
-                    nullable: false
-                    unique: true
-              - column:
-                  name: status
-                  type: VARCHAR(25)
-                  constraints:
-                    nullable: false
-        - rollback:
-            dropTable: dealer
-  - changeSet:
-      id: 6
-      author: Zdravko Mladenov
-      changes:
-        - createTable:
-            tableName: tenant
-            columns:
-              - column:
-                  name: id
-                  type: INTEGER
-                  constraints:
-                    primaryKey: true
-              - column:
-                  name: username
-                  type: VARCHAR(30)
-                  constraints:
-                    nullable: false
-                    unique: true
-              - column:
-                  name: password
-                  type: VARCHAR(255)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: email
-                  type: VARCHAR(50)
-                  constraints:
-                    nullable: false
-                    unique: true
-              - column:
-                  name: status
-                  type: VARCHAR(25)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: has_valid_license
-                  type: BOOLEAN
-                  constraints:
-                    nullable: false
-        - rollback:
-            dropTable: tenant
-  - changeSet:
       id: 4
       author: Zdravko Mladenov
       changes:
         - createTable:
-            tableName: car
+            tableName: cars
             columns:
               - column:
                   name: id
@@ -204,20 +129,20 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: dealer_id
+                  name: user_id
                   type: INTEGER
                   constraints:
                     nullable: false
                     foreignKeyName: fk_cars_dealer
-                    references: dealer(id)
+                    references: users(id)
         - rollback:
-            dropTable: car
+            dropTable: cars
   - changeSet:
       id: 7
       author: Zdravko Mladenov
       changes:
         - createTable:
-            tableName: equipment
+            tableName: equipments
             columns:
               - column:
                   name: id
@@ -257,15 +182,15 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: fk_locations_car
-                    references: car(id)
+                    references: cars(id)
         - rollback:
-            dropTable: equipment
+            dropTable: equipments
   - changeSet:
       id: 8
       author: Zdravko Mladenov
       changes:
         - createTable:
-            tableName: insurance
+            tableName: insurances
             columns:
               - column:
                   name: id
@@ -277,7 +202,7 @@ databaseChangeLog:
                   type: INTEGER
                   constraints:
                     foreignKeyName: fk_insurances_car
-                    references: car(id)
+                    references: cars(id)
               - column:
                   name: company
                   type: VARCHAR(50)
@@ -294,13 +219,13 @@ databaseChangeLog:
                   constraints:
                     nullable: false
         - rollback:
-            dropTable: insurance
+            dropTable: insurances
   - changeSet:
       id: 9
       author: Zdravko Mladenov
       changes:
         - createTable:
-            tableName: location
+            tableName: locations
             columns:
               - column:
                   name: id
@@ -333,15 +258,15 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: fk_locations_car
-                    references: car(id)
+                    references: cars(id)
         - rollback:
-            dropTable: location
+            dropTable: locations
   - changeSet:
       id: 10
       author: Zdravko Mladenov
       changes:
         - createTable:
-            tableName: reservation
+            tableName: reservations
             columns:
               - column:
                   name: id
@@ -364,13 +289,13 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: fk_reservation_car
-                    references: car(id)
+                    references: cars(id)
               - column:
-                  name: tenant_id
+                  name: user_id
                   type: INTEGER
                   constraints:
                     nullable: false
                     foreignKeyName: fk_reservation_tenant
-                    references: tenant(id)
+                    references: users(id)
         - rollback:
-            dropTable: reservation
+            dropTable: reservations
