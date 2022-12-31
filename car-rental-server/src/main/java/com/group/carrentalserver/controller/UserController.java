@@ -3,14 +3,13 @@ package com.group.carrentalserver.controller;
 import com.group.carrentalserver.domain.entity.User;
 import com.group.carrentalserver.dto.RegistrationEntryDto;
 import com.group.carrentalserver.dto.UserDto;
-import com.group.carrentalserver.event.OnRegistrationCompleteEvent;
+import com.group.carrentalserver.event.publisher.EventPublisher;
 import com.group.carrentalserver.exception.EmailAlreadyExistsException;
 import com.group.carrentalserver.exception.UsernameAlreadyExistsException;
 import com.group.carrentalserver.mapper.UserMapper;
 import com.group.carrentalserver.service.IRegistrationService;
 import com.group.carrentalserver.service.IUserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,32 +26,30 @@ import java.util.Optional;
 @RequestMapping("/api/v1/users")
 public class UserController {
 
-    private final ApplicationEventPublisher eventPublisher;
     private final IRegistrationService registrationService;
     private final IUserService userService;
     private final UserMapper userMapper;
+    private final EventPublisher eventPublisher;
 
     public UserController(IRegistrationService registrationService,
                           IUserService userService,
-                          ApplicationEventPublisher eventPublisher,
-                          UserMapper userMapper) {
+                          UserMapper userMapper,
+                          EventPublisher eventPublisher) {
         this.registrationService = registrationService;
         this.userService = userService;
-        this.eventPublisher = eventPublisher;
         this.userMapper = userMapper;
+        this.eventPublisher = eventPublisher;
     }
 
     @PostMapping("/register")
     public ResponseEntity<UserDto> register(@RequestBody @Valid RegistrationEntryDto dto,
-                                            HttpServletRequest request) {
+                                    HttpServletRequest request) {
         log.debug("REST request to register a user!");
 
         try {
             User registeredUser = registrationService.registerUser(dto);
 
-            String appUrl = request.getContextPath();
-            eventPublisher.publishEvent(new OnRegistrationCompleteEvent(registeredUser, request.getLocale(),
-                    appUrl));
+            eventPublisher.publishEvent(registeredUser, request);
 
             UserDto result = userMapper.entityToDto(registeredUser);
 
@@ -63,8 +60,8 @@ public class UserController {
     }
 
     @GetMapping("/confirmRegistration")
-    public ResponseEntity<String> confirmRegistration(HttpServletRequest request,
-                                                      @RequestParam("token") String token) {
+    public ResponseEntity<String> confirmRegistration(@RequestParam("token") String token,
+                                                      HttpServletRequest request) {
         log.debug("REST request to activate user by email confirmation!");
 
         registrationService.confirmRegistration(token);

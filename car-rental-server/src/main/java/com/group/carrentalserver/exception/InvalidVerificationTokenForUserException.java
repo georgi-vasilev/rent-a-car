@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-public class InvalidVerificationTokenForUserException extends RuntimeException {
+public final class InvalidVerificationTokenForUserException extends RuntimeException {
 
     private static final String ERROR_MESSAGE = "Verification token with id: %s is not valid!";
 
