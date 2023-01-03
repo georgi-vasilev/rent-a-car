@@ -4,7 +4,7 @@ import com.group.carrentalserver.domain.entity.Car;
 import com.group.carrentalserver.dto.CarDto;
 import com.group.carrentalserver.exception.BadRequestException;
 import com.group.carrentalserver.mapper.CarMapper;
-import com.group.carrentalserver.service.CarService;
+import com.group.carrentalserver.service.ICarService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -22,10 +22,10 @@ public class CarController {
 
     private static final String ENTITY_NAME = Car.class.getSimpleName();
 
-    private final CarService carService;
+    private final ICarService carService;
     private final CarMapper carMapper;
 
-    public CarController(CarService carService, CarMapper carMapper) {
+    public CarController(ICarService carService, CarMapper carMapper) {
         this.carService = carService;
         this.carMapper = carMapper;
     }

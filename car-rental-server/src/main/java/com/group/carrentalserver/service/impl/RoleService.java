@@ -3,7 +3,7 @@ package com.group.carrentalserver.service.impl;
 import com.group.carrentalserver.domain.entity.Role;
 import com.group.carrentalserver.domain.enumeration.RoleType;
 import com.group.carrentalserver.repository.RoleRepository;
-import com.group.carrentalserver.service.RoleService;
+import com.group.carrentalserver.service.IRoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,11 +13,11 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-public class RoleServiceImpl implements RoleService {
+public class RoleService implements IRoleService {
 
     private final RoleRepository roleRepository;
 
-    public RoleServiceImpl(RoleRepository roleRepository) {
+    public RoleService(RoleRepository roleRepository) {
         this.roleRepository = roleRepository;
     }
 

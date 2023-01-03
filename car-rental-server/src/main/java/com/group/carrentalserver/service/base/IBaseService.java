@@ -20,7 +20,7 @@ import java.util.Optional;
  *
  * @param <E> - entity type.
  */
-public interface BaseService<E extends BaseEntity> {
+public interface IBaseService<E extends BaseEntity> {
 
     /**
      * Save the entity.

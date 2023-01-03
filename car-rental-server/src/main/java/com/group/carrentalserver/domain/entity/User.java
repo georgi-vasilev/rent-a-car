@@ -29,6 +29,9 @@ public class User extends BaseEntity implements UserDetails {
     @Column
     private Boolean hasValidLicense = false;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    private VerificationToken verificationToken;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reservation> reservations = new ArrayList<>();
 
@@ -61,8 +64,7 @@ public class User extends BaseEntity implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-//        return status != UserStatus.LOCKED;
-        return true;
+        return status != UserStatus.LOCKED;
     }
 
     @Override
@@ -72,8 +74,7 @@ public class User extends BaseEntity implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-//        return status == UserStatus.ACTIVE;
-        return true;
+        return status == UserStatus.ACTIVE;
     }
 
     @Override
